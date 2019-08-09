@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+#
+# Initialize a restic backup repository
+#
+# Copyright 2019, Joe Block <jpb@unixorn.net>
+
+set -o pipefail
+
+exec restic --repo "$BACKUP_REPOSITORY" init

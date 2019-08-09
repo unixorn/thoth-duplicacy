@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+#
+# entrypoint script for restic container
+
+set -o pipefail
+
+debugdump() {
+  if [[ -n "$DEBUG" ]]; then
+    echo "BACKUP_LOCATION: $BACKUP_LOCATION"
+    echo "B2_ACCOUNT_ID: $B2_ACCOUNT_ID"
+    echo "B2_ACCOUNT_KEY: $B2_ACCOUNT_KEY"
+    echo "BACKUP_REPOSITORY: $BACKUP_REPOSITORY"
+    echo "BACKUP_LOCATION: $BACKUP_LOCATION"
+    echo "DEBUG: $DEBUG"
+    echo "HOSTNAME: $HOSTNAME"
+    echo "KEEP_HOURS: $KEEP_HOURS"
+    echo "KEEP_DAYS: $KEEP_DAYS"
+    echo "KEEP_WEEKS: $KEEP_WEEKS"
+    echo "KEEP_MONTHS: $KEEP_MONTHS"
+  fi
+}
+
+echo "Args: $@"
+debugdump
+
+if [[ $# -gt 0 ]]; then
+  echo "Running: $@"
+  exec $@
+else
+  exec bash
+fi
