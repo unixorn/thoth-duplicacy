@@ -14,8 +14,7 @@ RUN go build -v github.com/gilbertchen/duplicacy/duplicacy
 RUN cd src/duplicacy-util && go build
 
 # Real container
-# FROM debian:buster-slim
-FROM alpine:3.9
+FROM debian:buster-slim
 USER root
 
 RUN mkdir -p /usr/local/bin
