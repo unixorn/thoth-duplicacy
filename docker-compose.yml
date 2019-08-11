@@ -1,24 +1,28 @@
 version: "3.4"
 
 services:
-  thoth-duplicity:
+  thoth-duplicacy:
     build: .
     # image: unixorn/thoth-duplicity
     environment:
       DEBUG: ${DEBUG:-}
+      B2_STORAGE_NAME: ${B2_STORAGE_NAME:-b2}
       BACKUP_LOCATION: ${BACKUP_LOCATION:-}
       BACKUP_REPOSITORY: ${BACKUP_REPOSITORY:-}
-      B2_ACCOUNT_ID: $B2_ACCOUNT_ID
-      B2_ACCOUNT_KEY: $B2_ACCOUNT_KEY
-      RESTIC_PASSWORD: $RESTIC_PASSWORD
+      DUPLICACY_B2_ID: $DUPLICACY_B2_ID
+      DUPLICACY_B2_KEY: $DUPLICACY_B2_KEY
+      DUPLICACY_BACKUP_THEAD_COUNT: ${DUPLICACY_BACKUP_THEAD_COUNT:-10}
+      DUPLICACY_HOSTNAME: $DUPLICACY_HOSTNAME
+      DUPLICACY_PASSWORD: $DUPLICACY_PASSWORD
+      DUPLICACY_SNAPSHOT_NAME: $DUPLICACY_SNAPSHOT_NAME
       HOSTNAME: ${RESTIC_HOSTNAME:-$HOSTNAME}
-      KEEP_LAST: ${KEEP_LAST:-2}
-      KEEP_HOURS: ${KEEP_HOURS:-24}
       KEEP_DAYS: ${KEEP_DAYS:-7}
-      KEEP_WEEKS: ${KEEP_WEEKS:-4}
+      KEEP_HOURS: ${KEEP_HOURS:-24}
+      KEEP_LAST: ${KEEP_LAST:-2}
       KEEP_MONTHS: ${KEEP_MONTHS:-3}
+      KEEP_WEEKS: ${KEEP_WEEKS:-4}
       KEEP_YEARS: ${KEEP_YEARS:-1}
     volumes:
-      - "/Users/jblock/Dropbox:/data"
+      - "$BACKUP_LOCATION:/data"
       - "./scripts:/scripts"
       - "./rootcache:/root/.cache"
