@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+#
+# Script skeleton
+#
+# Copyright 2019, Your Name <yourname@yourdomain.com>
+
+set -o pipefail
+
+cd /data
+
+exec duplicacy list -storage="$B2_STORAGE_NAME" -all

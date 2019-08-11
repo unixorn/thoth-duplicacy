@@ -1,9 +1,26 @@
 #!/usr/bin/env bash
 #
-# Initialize a restic backup repository
+# Initialize a duplicity backup repository in b2
 #
 # Copyright 2019, Joe Block <jpb@unixorn.net>
+#
+# This script is Apache 2.0 licensed.
 
 set -o pipefail
 
-exec restic --repo "$BACKUP_REPOSITORY" init
+cd /data
+
+echo "Initializing $B2_STORAGE_NAME at $BACKUP_REPOSITORY for snapshot $DUPLICACY_SNAPSHOT_NAME"
+duplicacy init -encrypt -storage-name "$B2_STORAGE_NAME" "$DUPLICACY_SNAPSHOT_NAME" "$BACKUP_REPOSITORY"
+
+echo "Creating storage entry for $B2_STORAGE_NAME"
+duplicacy add -e "$B2_STORAGE_NAME" "$DUPLICACY_SNAPSHOT_NAME" b2://net-unixorn-backups
+
+echo "Setting password for $B2_STORAGE_NAME"
+duplicacy set -storage "$B2_STORAGE_NAME" -key password -value "$DUPLICACY_PASSWORD"
+
+echo "Setting b2_id for $B2_STORAGE_NAME"
+duplicacy set -storage "$B2_STORAGE_NAME" -key b2_id -value "$DUPLICACY_B2_ID"
+
+echo "Setting password for $B2_STORAGE_NAME"
+duplicacy set -storage "$B2_STORAGE_NAME" -key b2_key -value "$DUPLICACY_B2_KEY"

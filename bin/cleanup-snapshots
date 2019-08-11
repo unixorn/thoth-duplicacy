@@ -3,18 +3,33 @@
 # Delete excess snapshots
 #
 # Copyright 2019, Joe Block <jpb@unixorn.net>
+#
+# This script is Apache 2.0 licensed.
+
+# duplicacy prune -keep 1:7       # Keep a snapshot per (1) day for snapshots older than 7 days
+# duplicacy prune -keep 7:30      # Keep a snapshot every 7 days for snapshots older than 30 days
+# duplicacy prune -keep 30:180    # Keep a snapshot every 30 days for snapshots older than 180 days
+# duplicacy prune -keep 0:360     # Keep no snapshots older than 360 days
+#
+# Multiple -keep options must be sorted by their m values in decreasing order.
+#
+# For example, to combine the above policies into one line, it would become:
+#
+# Copy to clipboard
+# duplicacy prune -keep 0:360 -keep 30:180 -keep 7:30 -keep 1:7
+
+      # KEEP_DAYS: ${KEEP_DAYS:-7}
+      # KEEP_HOURS: ${KEEP_HOURS:-24}
+      # KEEP_LAST: ${KEEP_LAST:-2}
+      # KEEP_MONTHS: ${KEEP_MONTHS:-3}
+      # KEEP_WEEKS: ${KEEP_WEEKS:-4}
+      # KEEP_YEARS: ${KEEP_YEARS:-1}
 
 set -o pipefail
 
-restic --repo "$BACKUP_REPOSITORY" forget \
-  --keep-last "$KEEP_LAST" \
-  --keep-hourly "$KEEP_HOURS" \
-  --keep-daily "$KEEP_DAYS" \
-  --keep-weekly "$KEEP_WEEKS" \
-  --keep-monthly "$KEEP_MONTHS" \
-  --keep-yearly "$KEEP_YEARS" \
-  --verbose
-
-restic --repo "$BACKUP_LOCATION" prune
-
-restic --repo "$BACKUP_LOCATION" check
+cd /data
+exec duplicacy prune -storage "$B2_STORAGE_NAME" \
+  -keep "0:365" \
+  -keep "7:30" \
+  -keep "30:90" \
+  -keep "1:7"

@@ -1,31 +1,43 @@
 #!/usr/bin/env bash
 #
-# entrypoint script for restic container
+# entrypoint script for duplicacy container
+#
+# This script is Apache 2.0 licensed.
 
 set -o pipefail
 
 debugdump() {
   if [[ -n "$DEBUG" ]]; then
-    echo "BACKUP_LOCATION: $BACKUP_LOCATION"
-    echo "B2_ACCOUNT_ID: $B2_ACCOUNT_ID"
-    echo "B2_ACCOUNT_KEY: $B2_ACCOUNT_KEY"
-    echo "BACKUP_REPOSITORY: $BACKUP_REPOSITORY"
-    echo "BACKUP_LOCATION: $BACKUP_LOCATION"
     echo "DEBUG: $DEBUG"
+    echo "BACKUP_LOCATION: $BACKUP_LOCATION"
+    echo "BACKUP_LOCATION: $BACKUP_LOCATION"
+    echo "BACKUP_REPOSITORY: $BACKUP_REPOSITORY"
+    echo "DUPLICACY_B2_ID: $DUPLICACY_B2_ID"
+    echo "DUPLICACY_B2_KEY: $DUPLICACY_B2_KEY"
+    echo "DUPLICACY_BACKUP_THEAD_COUNT: $DUPLICACY_BACKUP_THEAD_COUNT"
     echo "HOSTNAME: $HOSTNAME"
-    echo "KEEP_HOURS: $KEEP_HOURS"
     echo "KEEP_DAYS: $KEEP_DAYS"
-    echo "KEEP_WEEKS: $KEEP_WEEKS"
+    echo "KEEP_HOURS: $KEEP_HOURS"
     echo "KEEP_MONTHS: $KEEP_MONTHS"
+    echo "KEEP_WEEKS: $KEEP_WEEKS"
   fi
 }
 
 echo "Args: $@"
 debugdump
 
+
 if [[ $# -gt 0 ]]; then
-  echo "Running: $@"
-  exec $@
+  if [[ "$1" == 'duplicacy' ]]; then
+    if [[ -n "$DEBUG" ]]; then
+      echo 'Switching to /data'
+    fi
+    cd /data
+    exec $@
+  else
+    echo "Running: $@"
+    exec $@
+  fi
 else
   exec bash
 fi
