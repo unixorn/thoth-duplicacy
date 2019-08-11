@@ -17,6 +17,9 @@ RUN cd src/duplicacy-util && go build
 FROM debian:buster-slim
 USER root
 
+RUN apt-get update && \
+  apt-get install -y ca-certificates --no-install-recommends
+
 RUN mkdir -p /usr/local/bin
 COPY --from=0 /go/bin/duplicacy /usr/local/bin
 COPY --from=0 /go/src/duplicacy-util/duplicacy-util /usr/local/bin
