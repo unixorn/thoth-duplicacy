@@ -12,6 +12,7 @@ set -o errexit
 ARCH=$(uname -m)
 DUPLICACY_VERSION=${DUPLICACY_VERSION:-2.2.3}
 DUPLICACY_UTIL_VERSION=${DUPLICACY_UTIL_VERSION:-1.5}
+DEBUG_F='/build/debugf'
 
 case "$ARCH" in
   x86_64 )
@@ -22,7 +23,7 @@ case "$ARCH" in
     duplicacy_binary_arch='linux_arm64'
     util_arch='linux_arm'
     ;;
-  armv7l )
+  arm7l|armv7l )
     duplicacy_binary_arch='linux_arm'
     util_arch='linux_arm'
     ;;
@@ -40,6 +41,8 @@ if [[ -n "$DEBUG_F" ]]; then
   echo "DUPLICACY_URL: $DUPLICACY_URL" >> "${DEBUG_F}"
   echo "DUPLICACY_UTIL_VERSION: $DUPLICACY_UTIL_VERSION" >> "${DEBUG_F}"
   echo "UTIL_URL: $UTIL_URL" >> "${DEBUG_F}"
+  echo "duplicacy_binary_arch: ${duplicacy_binary_arch}" >> "${DEBUG_F}"
+  echo "util_arch: ${util_arch}" >> "${DEBUG_F}"
 fi
 
 wget $DUPLICACY_URL -O /usr/local/bin/duplicacy
