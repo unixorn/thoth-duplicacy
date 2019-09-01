@@ -30,6 +30,6 @@ set -o pipefail
 cd /data
 exec duplicacy prune -storage "$B2_STORAGE_NAME" \
   -keep "0:365" \
-  -keep "7:30" \
   -keep "30:90" \
+  -keep "7:30" \
   -keep "1:3" $@
