@@ -6,8 +6,9 @@
 #
 # This script is Apache 2.0 licensed.
 
+echo "DUPLICACY_BACKUP_THEAD_COUNT: ${DUPLICACY_BACKUP_THEAD_COUNT}"
 cd /data
 exec duplicacy backup \
   -threads "$DUPLICACY_BACKUP_THEAD_COUNT" \
   -stats \
-  -storage "$B2_STORAGE_NAME" 2>&1
+  -storage "$B2_STORAGE_NAME" $@ 2>&1

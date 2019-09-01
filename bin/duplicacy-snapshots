@@ -8,4 +8,4 @@ set -o pipefail
 
 cd /data
 
-exec duplicacy list -storage="$B2_STORAGE_NAME" -all
+exec duplicacy list -storage="$B2_STORAGE_NAME" -all $@
