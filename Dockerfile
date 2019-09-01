@@ -24,8 +24,7 @@ RUN apt-get update && \
   apt-get install -y ca-certificates --no-install-recommends
 
 RUN mkdir -p /usr/local/bin
-COPY --from=0 /usr/local/bin/duplicacy /usr/local/bin
-COPY --from=0 /usr/local/bin/duplicacy-util /usr/local/bin
+COPY --from=0 /usr/local/bin/duplicacy* /usr/local/bin/
 
 COPY bin/* /usr/local/bin/
 
