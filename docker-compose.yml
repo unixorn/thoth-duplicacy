@@ -2,8 +2,8 @@ version: "3.4"
 
 services:
   thoth-duplicacy:
-    build: .
-    # image: unixorn/thoth-duplicity
+    # build: .
+    image: unixorn/thoth-duplicity
     environment:
       DEBUG: ${DEBUG:-}
       B2_STORAGE_NAME: ${B2_STORAGE_NAME:-b2}
