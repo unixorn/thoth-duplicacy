@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 #
-# Script skeleton
+# List all snapshots
 #
-# Copyright 2019, Your Name <yourname@yourdomain.com>
+# Copyright 2020, Joe Block <jpb@unixorn.net>
 
 set -o pipefail
 
