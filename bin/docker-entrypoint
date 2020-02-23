@@ -22,9 +22,7 @@ debugdump() {
   fi
 }
 
-echo "Args: $@"
 debugdump
-
 
 if [[ $# -gt 0 ]]; then
   if [[ "$1" == 'duplicacy' ]]; then
@@ -34,7 +32,9 @@ if [[ $# -gt 0 ]]; then
     cd /data
     exec $@
   else
-    echo "Running: $@"
+    if [[ -n "$DEBUG" ]]; then
+      echo "Running: $@"
+    fi
     exec $@
   fi
 else
